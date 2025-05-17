@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Menu.unity
-    guid: a6e720bf6bf8d7b47af698b951fdc2c3
+    path: Assets/menugame.unity
+    guid: 08cd2d00eaa23f94b84172bce6c16ed1
   - enabled: 1
-    path: Assets/Level1.unity
-    guid: 877a120352644994cb32f0266e048dd3
+    path: Assets/Tereza.unity
+    guid: a181dbbaee87ceb42b897168be4da3d4
+  - enabled: 0
+    path: Assets/Sofi.unity
+    guid: fcd0135dee5911c4a907e7a9a3369b99
   m_configObjects: {}
