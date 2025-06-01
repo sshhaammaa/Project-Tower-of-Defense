@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Attack1.cs.meta
 guid: 318598dfaaf04674388d09c6c46eadc2
+========
+guid: ac1eb05af6d391b4eb0f4c070a99f1d0
+>>>>>>>> Stashed changes:Assets/TextMesh Pro/Examples & Extras/Scripts/DropdownSample.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
