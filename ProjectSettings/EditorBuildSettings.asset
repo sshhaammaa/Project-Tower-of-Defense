@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/menugame.unity
     guid: 08cd2d00eaa23f94b84172bce6c16ed1
   - enabled: 1
-    path: Assets/Tereza.unity
-    guid: a181dbbaee87ceb42b897168be4da3d4
-  - enabled: 0
-    path: Assets/Sofi.unity
-    guid: fcd0135dee5911c4a907e7a9a3369b99
+    path: Assets/Tereza TowerDefense.unity
+    guid: a8fb4cc4396570549830eba10ecaccdd
   m_configObjects: {}
