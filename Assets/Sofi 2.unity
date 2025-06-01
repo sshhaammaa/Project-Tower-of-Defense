@@ -20004,7 +20004,10 @@ MeshFilter:
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 <<<<<<< Updated upstream:Assets/Sofi 2.unity
 <<<<<<< Updated upstream:Assets/Sofi 2.unity
+<<<<<<< Updated upstream:Assets/Sofi 2.unity
 =======
+=======
+>>>>>>> Stashed changes:Assets/Tereza.unity
 =======
 >>>>>>> Stashed changes:Assets/Tereza.unity
 --- !u!1 &943601492
@@ -44974,6 +44977,9 @@ SceneRoots:
   - {fileID: 278015173}
   - {fileID: 943601494}
 <<<<<<< Updated upstream:Assets/Sofi 2.unity
+<<<<<<< Updated upstream:Assets/Sofi 2.unity
+>>>>>>> Stashed changes:Assets/Tereza.unity
+=======
 >>>>>>> Stashed changes:Assets/Tereza.unity
 =======
 >>>>>>> Stashed changes:Assets/Tereza.unity
