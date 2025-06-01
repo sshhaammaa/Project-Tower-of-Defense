@@ -35,6 +35,7 @@ public class MobMovement : MonoBehaviour
 	public bool GetDamage(int damage)
 	{
 		hp -= damage;
+		Debug.Log("Моб отримав шкоду: " + damage + ". Поточне HP: " + hp);
 
 		if (hp <= 0)
 		{
