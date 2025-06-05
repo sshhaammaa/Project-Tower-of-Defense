@@ -9,6 +9,7 @@ public class ObjectPlacer : MonoBehaviour
 
     private int currentPlaced = 0;
     private bool isPlacing = false;
+    public bool isDeleting = false;
 
     public List<GameObject> placedObjects = new List<GameObject>();
 
@@ -22,8 +23,13 @@ public class ObjectPlacer : MonoBehaviour
 
             // Створити копію танка для перегляду
             previewObject = Instantiate(objectPrefab);
-            SetLayerRecursively(previewObject, LayerMask.NameToLayer("Ignore Raycast")); // щоб не блокував клік
-            SetTransparent(previewObject); // зробити прозорим
+            
+            SetLayerRecursively(previewObject, LayerMask.NameToLayer("Ignore Raycast"));
+            SetTransparent(previewObject);
+            DisableScriptsOnPreview(previewObject); // 🔽 НОВА ФУНКЦІЯ
+
+
+
         }
         else
         {
@@ -35,8 +41,19 @@ public class ObjectPlacer : MonoBehaviour
     {
         if (isPlacing)
         {
-            MovePreviewToMouse();
+            MovePreviewToMouse(); // переміщення прев’ю за мишкою
 
+            //  Обертання прев’ю клавішами Q та E
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                previewObject.transform.Rotate(Vector3.up, -45f); // вліво
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                previewObject.transform.Rotate(Vector3.up, 45f); // вправо
+            }
+
+            //  ЛКМ для розміщення
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -44,15 +61,17 @@ public class ObjectPlacer : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    // 🔴 Перевіряємо, чи об'єкт під курсором не є "Path"
+                    // Не ставимо на дорогу
                     if (hit.collider.CompareTag("Path"))
                     {
                         Debug.Log("Не можна ставити на дорогу!");
                         return;
                     }
 
-                    GameObject newObject = Instantiate(objectPrefab, hit.point, Quaternion.identity);
-                    newObject.AddComponent<TankClickDelete>().placer = this;
+                    //  Створюємо справжній танк із поточним поворотом
+                    GameObject newObject = Instantiate(objectPrefab, hit.point, previewObject.transform.rotation);
+                    TankClickDelete deleter = newObject.AddComponent<TankClickDelete>();
+                    deleter.placer = this;
 
                     placedObjects.Add(newObject);
                     currentPlaced++;
@@ -72,8 +91,39 @@ public class ObjectPlacer : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             previewObject.transform.position = hit.point;
+
+            // 🔴 Якщо це дорога — ставимо червоний колір
+            if (hit.collider.CompareTag("Path"))
+            {
+                SetPreviewColor(Color.red, 0.4f);
+            }
+            else
+            {
+                SetPreviewColor(Color.green, 0.4f);
+            }
         }
     }
+    void SetPreviewColor(Color color, float alpha = 0.4f)
+    {
+        foreach (var rend in previewObject.GetComponentsInChildren<Renderer>())
+        {
+            foreach (var mat in rend.materials)
+            {
+                Color c = color;
+                c.a = alpha;
+                mat.color = c;
+            }
+        }
+    }
+    void DisableScriptsOnPreview(GameObject obj)
+    {
+        // Вимикаємо усі MonoBehaviour скрипти на об’єкті
+        foreach (var script in obj.GetComponentsInChildren<MonoBehaviour>())
+        {
+            script.enabled = false;
+        }
+    }
+
 
     public void RemovePlacedObject(GameObject obj)
     {
@@ -82,6 +132,11 @@ public class ObjectPlacer : MonoBehaviour
             placedObjects.Remove(obj);
             currentPlaced--;
         }
+    }
+    public void ToggleDeleteMode()
+    {
+        isDeleting = !isDeleting;
+        Debug.Log("Delete Mode: " + isDeleting);
     }
 
     // Робимо матеріали прозорими
@@ -114,4 +169,5 @@ public class ObjectPlacer : MonoBehaviour
             SetLayerRecursively(child.gameObject, layer);
         }
     }
+
 }

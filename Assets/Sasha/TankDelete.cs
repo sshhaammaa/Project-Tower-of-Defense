@@ -6,11 +6,11 @@ public class TankClickDelete : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (placer != null)
+        if (placer != null && placer.isDeleting)
         {
-            placer.RemovePlacedObject(gameObject);
+            placer.placedObjects.Remove(gameObject);
+            Destroy(gameObject);
+            Debug.Log("Танк видалено");
         }
-
-        Destroy(gameObject);
     }
 }
