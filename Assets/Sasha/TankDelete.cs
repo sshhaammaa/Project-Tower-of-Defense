@@ -4,6 +4,7 @@ public class TankClickDelete : MonoBehaviour
 {
     public ObjectPlacer placer;
 
+
     void OnMouseDown()
     {
         if (placer != null && placer.isDeleting)

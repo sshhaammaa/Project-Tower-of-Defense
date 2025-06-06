@@ -1,74 +1,89 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
-public class HealthBarController : MonoBehaviour
+public class HealthBarManager : MonoBehaviour
 {
+    public static HealthBarManager instance;
+
+    [Header("UI")]
     public Slider healthSlider;
-    public TextMeshProUGUI hpText;
-    public GameObject gameOverText;
-    public GameObject restartButton;
-    public GameObject gameplayButtons;     // група кнопок
-    public GameObject backgroundPanel;     // панель для червоного фону
+    public TextMeshProUGUI healthText;
+    public GameObject gameOverPanel;
+    public Image backgroundImage;
+    public Image fillImage;
+    public Color normalColor = Color.green;
+    public Color gameOverColor = Color.red;
 
-    public float maxHealth = 100f;
-    private float currentHealth;
+    [Header("Настройки бази")]
+    public int maxHP = 100;
+    private int currentHP;
 
-    void Start()
+    private void Awake()
     {
-        currentHealth = maxHealth;
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = currentHealth;
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
 
-        UpdateHPText();
+        currentHP = maxHP;
 
-        gameOverText.SetActive(false);
-        restartButton.SetActive(false);
-        backgroundPanel.SetActive(false);
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            TakeDamage(10f);
-    }
-
-    public void TakeDamage(float amount)
-    {
-        currentHealth -= amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        healthSlider.value = currentHealth;
-        UpdateHPText();
-
-        if (currentHealth <= 0f)
+        // Установлюємо max значення для слайдера
+        if (healthSlider != null)
         {
-            ShowGameOver();
+            healthSlider.maxValue = maxHP;
+            healthSlider.minValue = 0;
+        }
+
+        UpdateUI();
+    }
+
+    public void TakeDamage(int amount)
+    {
+        currentHP -= amount;
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            GameOver();
+        }
+
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (healthSlider != null)
+            healthSlider.value = currentHP;
+
+        if (healthText != null)
+            healthText.text = currentHP + " / " + maxHP;
+
+        if (fillImage != null)
+        {
+            float healthPercent = (float)currentHP / maxHP;
+            fillImage.color = Color.Lerp(Color.red, Color.green, healthPercent);
         }
     }
 
-    public void Heal(float amount)
+    private void GameOver()
     {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        healthSlider.value = currentHealth;
-        UpdateHPText();
-    }
+        Debug.Log("Game Over — база знищена!");
 
-    private void UpdateHPText()
-    {
-        hpText.text = Mathf.RoundToInt(currentHealth) + " / " + Mathf.RoundToInt(maxHealth);
-    }
+        if (backgroundImage != null)
+            backgroundImage.color = gameOverColor;
 
-    private void ShowGameOver()
-    {
-        gameOverText.SetActive(true);
-        restartButton.SetActive(true);
-        backgroundPanel.SetActive(true); // зробити фон червоним
-        gameplayButtons.SetActive(false); // сховати всі інші кнопки
-    }
+        if (fillImage != null)
+            fillImage.color = gameOverColor;
 
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 0);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+
+        // Вимикаємо всі кнопки, крім Game Over панелі
+        Button[] allButtons = FindObjectsOfType<Button>();
+        foreach (Button btn in allButtons)
+        {
+            if (!gameOverPanel.transform.IsChildOf(btn.transform))
+                btn.gameObject.SetActive(false);
+        }
     }
 }
