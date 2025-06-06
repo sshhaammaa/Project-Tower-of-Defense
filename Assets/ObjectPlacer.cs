@@ -21,6 +21,12 @@ public class ObjectPlacer : MonoBehaviour
         {
             isPlacing = true;
 
+            int cost = 25;
+            if (!PlayerMonety.instance.SpendMoney(cost))
+            {
+                Debug.Log("Не вистачає грошей!");
+                return;
+            }
             // Створити копію танка для перегляду
             previewObject = Instantiate(objectPrefab);
             

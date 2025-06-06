@@ -33,9 +33,10 @@ public class attack : MonoBehaviour
 		transform.Translate(dir.normalized * distanceThisFrame, Space.World);
 	}
 
-	void HitTarget()
-	{
-		target.GetDamage(damage);
-		Destroy(gameObject);
-	}
+    void HitTarget()
+    {
+        target.GetDamage(damage);
+        Destroy(gameObject);
+    }
+
 }
