@@ -4239,7 +4239,7 @@ RectTransform:
   - {fileID: 1843284263}
   - {fileID: 551321731}
   - {fileID: 891628911}
-  - {fileID: 1795523200}
+  - {fileID: 1803053517}
   m_Father: {fileID: 807832117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5665,7 +5665,6 @@ GameObject:
   - component: {fileID: 272736673}
   - component: {fileID: 272736672}
   - component: {fileID: 272736671}
-  - component: {fileID: 272736674}
   - component: {fileID: 272736675}
   m_Layer: 5
   m_Name: Tank
@@ -5789,23 +5788,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 272736669}
   m_CullTransparentMesh: 1
---- !u!114 &272736674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272736669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0070bc88f1895324a88696beac9fe142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerPrefabs: []
-  towerCosts: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  maxPlaceCount: 5
-  isDeleting: 0
-  placedObjects: []
 --- !u!114 &272736675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5818,7 +5800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc6b4b34df411f418593bab4248fcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placer: {fileID: 0}
+  objectPlacer: {fileID: 0}
 --- !u!1 &278015172
 GameObject:
   m_ObjectHideFlags: 0
@@ -24370,7 +24352,6 @@ GameObject:
   - component: {fileID: 1119678392}
   - component: {fileID: 1119678391}
   - component: {fileID: 1119678390}
-  - component: {fileID: 1119678393}
   - component: {fileID: 1119678394}
   m_Layer: 5
   m_Name: Tank1
@@ -24494,24 +24475,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119678388}
   m_CullTransparentMesh: 1
---- !u!114 &1119678393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119678388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0070bc88f1895324a88696beac9fe142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerPrefabs:
-  - {fileID: 0}
-  towerCosts: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  maxPlaceCount: 5
-  isDeleting: 0
-  placedObjects: []
 --- !u!114 &1119678394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24524,7 +24487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc6b4b34df411f418593bab4248fcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placer: {fileID: 0}
+  objectPlacer: {fileID: 0}
 --- !u!1 &1140847709
 GameObject:
   m_ObjectHideFlags: 0
@@ -29143,7 +29106,7 @@ GameObject:
   - component: {fileID: 1413723509}
   - component: {fileID: 1413723508}
   m_Layer: 0
-  m_Name: a
+  m_Name: BaseZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30727,7 +30690,6 @@ GameObject:
   - component: {fileID: 1471574305}
   - component: {fileID: 1471574304}
   - component: {fileID: 1471574303}
-  - component: {fileID: 1471574306}
   - component: {fileID: 1471574307}
   m_Layer: 5
   m_Name: Tank2
@@ -30851,24 +30813,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471574301}
   m_CullTransparentMesh: 1
---- !u!114 &1471574306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1471574301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0070bc88f1895324a88696beac9fe142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerPrefabs:
-  - {fileID: 0}
-  towerCosts: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  maxPlaceCount: 5
-  isDeleting: 0
-  placedObjects: []
 --- !u!114 &1471574307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30881,7 +30825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc6b4b34df411f418593bab4248fcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placer: {fileID: 0}
+  objectPlacer: {fileID: 0}
 --- !u!1 &1473976304
 GameObject:
   m_ObjectHideFlags: 0
@@ -36741,7 +36685,6 @@ GameObject:
   - component: {fileID: 1795523204}
   - component: {fileID: 1795523203}
   - component: {fileID: 1795523202}
-  - component: {fileID: 1795523201}
   m_Layer: 5
   m_Name: DeleteTowers
   m_TagString: Untagged
@@ -36756,33 +36699,20 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795523199}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 176.784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2057229358}
   - {fileID: 173128588}
-  m_Father: {fileID: 190908727}
+  m_Father: {fileID: 1803053517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -39.76999, y: 26.480011}
+  m_AnchoredPosition: {x: 1117.922, y: 23.140594}
   m_SizeDelta: {x: 76.927, y: 52.339005}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1795523201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795523199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc6b4b34df411f418593bab4248fcdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placer: {fileID: 891628914}
 --- !u!114 &1795523202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36827,10 +36757,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1795523201}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 891628914}
+        m_TargetAssemblyTypeName: ObjectPlacer, Assembly-CSharp
+        m_MethodName: ToggleDeleteMode
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -36877,6 +36807,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795523199}
   m_CullTransparentMesh: 1
+--- !u!1 &1803053516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1803053517}
+  - component: {fileID: 1803053518}
+  m_Layer: 0
+  m_Name: Delete
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1803053517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803053516}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -677.6921, y: -266.66058, z: -176.784}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1795523200}
+  m_Father: {fileID: 190908727}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1803053518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803053516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc6b4b34df411f418593bab4248fcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPlacer: {fileID: 891628914}
 --- !u!1 &1806079041
 GameObject:
   m_ObjectHideFlags: 0
