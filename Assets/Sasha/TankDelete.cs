@@ -4,14 +4,20 @@ public class TankClickDelete : MonoBehaviour
 {
     public ObjectPlacer placer;
 
-
     void OnMouseDown()
     {
+        Debug.Log("Натиснули на танк: " + gameObject.name);
+
         if (placer != null && placer.isDeleting)
         {
-            placer.placedObjects.Remove(gameObject);
+            Debug.Log("Режим видалення активний, видаляємо...");
+
+            placer.RemovePlacedObject(gameObject);
             Destroy(gameObject);
-            Debug.Log("Танк видалено");
+        }
+        else
+        {
+            Debug.Log("Режим видалення не активний або placer null");
         }
     }
 }

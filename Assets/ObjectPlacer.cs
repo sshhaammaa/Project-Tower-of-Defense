@@ -4,7 +4,11 @@ using System.Collections.Generic;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    public GameObject objectPrefab;
+    public GameObject[] towerPrefabs;     // Префаби башт
+    public int[] towerCosts;              // Ціни для кожної башти
+    private GameObject objectPrefab;      // Поточний префаб
+    private int currentCost;              // Вартість поточної башти
+
     public int maxPlaceCount = 5;
 
     private int currentPlaced = 0;
@@ -12,54 +16,57 @@ public class ObjectPlacer : MonoBehaviour
     public bool isDeleting = false;
 
     public List<GameObject> placedObjects = new List<GameObject>();
-
     private GameObject previewObject;
+
+    public void SelectAndPlaceTower(int index)
+    {
+        if (index >= 0 && index < towerPrefabs.Length)
+        {
+            objectPrefab = towerPrefabs[index];
+            currentCost = (index < towerCosts.Length) ? towerCosts[index] : 0;
+            StartPlacing();
+        }
+    }
 
     public void StartPlacing()
     {
-        if (currentPlaced < maxPlaceCount)
+        if (objectPrefab == null)
         {
-            isPlacing = true;
-
-            int cost = 25;
-            if (!PlayerMonety.instance.SpendMoney(cost))
-            {
-                Debug.Log("Не вистачає грошей!");
-                return;
-            }
-            // Створити копію танка для перегляду
-            previewObject = Instantiate(objectPrefab);
-            
-            SetLayerRecursively(previewObject, LayerMask.NameToLayer("Ignore Raycast"));
-            SetTransparent(previewObject);
-            DisableScriptsOnPreview(previewObject); // 🔽 НОВА ФУНКЦІЯ
-
-
-
+            Debug.LogError("objectPrefab не вибрано!");
+            return;
         }
-        else
+
+        if (currentPlaced >= maxPlaceCount)
         {
             Debug.Log("Досягнуто максимуму об’єктів!");
+            return;
         }
+
+        if (!PlayerMonety.instance.SpendMoney(currentCost))
+        {
+            Debug.Log("Не вистачає грошей!");
+            return;
+        }
+
+        isPlacing = true;
+
+        previewObject = Instantiate(objectPrefab);
+        SetLayerRecursively(previewObject, LayerMask.NameToLayer("Ignore Raycast"));
+        SetTransparent(previewObject);
+        DisableScriptsOnPreview(previewObject);
     }
 
     void Update()
     {
         if (isPlacing)
         {
-            MovePreviewToMouse(); // переміщення прев’ю за мишкою
+            MovePreviewToMouse();
 
-            //  Обертання прев’ю клавішами Q та E
             if (Input.GetKeyDown(KeyCode.Q))
-            {
-                previewObject.transform.Rotate(Vector3.up, -45f); // вліво
-            }
+                previewObject.transform.Rotate(Vector3.up, -45f);
             else if (Input.GetKeyDown(KeyCode.E))
-            {
-                previewObject.transform.Rotate(Vector3.up, 45f); // вправо
-            }
+                previewObject.transform.Rotate(Vector3.up, 45f);
 
-            //  ЛКМ для розміщення
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -67,14 +74,12 @@ public class ObjectPlacer : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    // Не ставимо на дорогу
                     if (hit.collider.CompareTag("Path"))
                     {
                         Debug.Log("Не можна ставити на дорогу!");
                         return;
                     }
 
-                    //  Створюємо справжній танк із поточним поворотом
                     GameObject newObject = Instantiate(objectPrefab, hit.point, previewObject.transform.rotation);
                     TankClickDelete deleter = newObject.AddComponent<TankClickDelete>();
                     deleter.placer = this;
@@ -98,17 +103,13 @@ public class ObjectPlacer : MonoBehaviour
         {
             previewObject.transform.position = hit.point;
 
-            // 🔴 Якщо це дорога — ставимо червоний колір
             if (hit.collider.CompareTag("Path"))
-            {
                 SetPreviewColor(Color.red, 0.4f);
-            }
             else
-            {
                 SetPreviewColor(Color.green, 0.4f);
-            }
         }
     }
+
     void SetPreviewColor(Color color, float alpha = 0.4f)
     {
         foreach (var rend in previewObject.GetComponentsInChildren<Renderer>())
@@ -121,15 +122,14 @@ public class ObjectPlacer : MonoBehaviour
             }
         }
     }
+
     void DisableScriptsOnPreview(GameObject obj)
     {
-        // Вимикаємо усі MonoBehaviour скрипти на об’єкті
         foreach (var script in obj.GetComponentsInChildren<MonoBehaviour>())
         {
             script.enabled = false;
         }
     }
-
 
     public void RemovePlacedObject(GameObject obj)
     {
@@ -139,13 +139,13 @@ public class ObjectPlacer : MonoBehaviour
             currentPlaced--;
         }
     }
+
     public void ToggleDeleteMode()
     {
         isDeleting = !isDeleting;
         Debug.Log("Delete Mode: " + isDeleting);
     }
 
-    // Робимо матеріали прозорими
     void SetTransparent(GameObject obj)
     {
         foreach (var rend in obj.GetComponentsInChildren<Renderer>())
@@ -155,7 +155,7 @@ public class ObjectPlacer : MonoBehaviour
                 Color c = mat.color;
                 c.a = 0.4f;
                 mat.color = c;
-                mat.SetFloat("_Mode", 2); // Transparent
+                mat.SetFloat("_Mode", 2);
                 mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
                 mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
                 mat.SetInt("_ZWrite", 0);
@@ -175,5 +175,4 @@ public class ObjectPlacer : MonoBehaviour
             SetLayerRecursively(child.gameObject, layer);
         }
     }
-
 }
