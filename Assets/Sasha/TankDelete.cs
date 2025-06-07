@@ -1,23 +1,60 @@
 using UnityEngine;
 
-public class TankClickDelete : MonoBehaviour
+public class TowerDeleter : MonoBehaviour
 {
-    public ObjectPlacer placer;
+    public ObjectPlacer objectPlacer; // Признач у інспекторі
 
-    void OnMouseDown()
+    void Update()
     {
-        Debug.Log("Натиснули на танк: " + gameObject.name);
-
-        if (placer != null && placer.isDeleting)
+        if (objectPlacer != null && objectPlacer.isDeleting && Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Режим видалення активний, видаляємо...");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            placer.RemovePlacedObject(gameObject);
-            Destroy(gameObject);
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject clickedObject = hit.collider.gameObject;
+                GameObject towerRoot = FindPlacedTowerRoot(clickedObject);
+
+                if (towerRoot != null)
+                {
+                    Debug.Log("Видаляємо башту: " + towerRoot.name);
+                    objectPlacer.RemovePlacedObject(towerRoot);
+                    Destroy(towerRoot);
+                }
+                else
+                {
+                    Debug.Log("Це не башта.");
+                }
+            }
         }
-        else
+    }
+
+    GameObject FindPlacedTowerRoot(GameObject clickedObject)
+    {
+        Debug.Log("Клікнуто по: " + clickedObject.name);
+
+        if (objectPlacer.placedObjects.Contains(clickedObject))
         {
-            Debug.Log("Режим видалення не активний або placer null");
+            Debug.Log("Знайдено як основний об'єкт.");
+            return clickedObject;
         }
+
+        Transform current = clickedObject.transform;
+
+        while (current.parent != null)
+        {
+            current = current.parent;
+            Debug.Log("Перевіряємо батька: " + current.name);
+
+            if (objectPlacer.placedObjects.Contains(current.gameObject))
+            {
+                Debug.Log("Знайдено в placedObjects: " + current.name);
+                return current.gameObject;
+            }
+        }
+
+        Debug.Log("Не знайдено в placedObjects.");
+        return null;
     }
 }

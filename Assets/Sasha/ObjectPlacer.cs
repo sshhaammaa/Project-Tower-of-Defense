@@ -4,20 +4,35 @@ using System.Collections.Generic;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    public GameObject[] towerPrefabs;     // Префаби башт
-    public int[] towerCosts;              // Ціни для кожної башти
-    private GameObject objectPrefab;      // Поточний префаб
-    private int currentCost;              // Вартість поточної башти
+    // Масив префабів башт
+    public GameObject[] towerPrefabs;
 
+    // Вартість кожної башти відповідно до індексу
+    public int[] towerCosts;
+
+    // Поточний вибраний префаб і його вартість
+    private GameObject objectPrefab;
+    private int currentCost;
+
+    // Максимальна кількість розміщених башт
     public int maxPlaceCount = 5;
 
+    // Лічильник вже розміщених башт
     private int currentPlaced = 0;
+
+    // Чи активний режим розміщення
     private bool isPlacing = false;
+
+    // Чи активний режим видалення
     public bool isDeleting = false;
 
+    // Список усіх розміщених об'єктів
     public List<GameObject> placedObjects = new List<GameObject>();
+
+    // Об'єкт-привид (для попереднього перегляду перед розміщенням)
     private GameObject previewObject;
 
+    // Вибір башти за індексом і запуск розміщення
     public void SelectAndPlaceTower(int index)
     {
         if (index >= 0 && index < towerPrefabs.Length)
@@ -28,6 +43,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Початок процесу розміщення башти
     public void StartPlacing()
     {
         if (objectPrefab == null)
@@ -42,6 +58,7 @@ public class ObjectPlacer : MonoBehaviour
             return;
         }
 
+        // Перевірка, чи вистачає грошей
         if (!PlayerMonety.instance.SpendMoney(currentCost))
         {
             Debug.Log("Не вистачає грошей!");
@@ -50,6 +67,7 @@ public class ObjectPlacer : MonoBehaviour
 
         isPlacing = true;
 
+        // Створення об'єкта-привида
         previewObject = Instantiate(objectPrefab);
         SetLayerRecursively(previewObject, LayerMask.NameToLayer("Ignore Raycast"));
         SetTransparent(previewObject);
@@ -60,13 +78,16 @@ public class ObjectPlacer : MonoBehaviour
     {
         if (isPlacing)
         {
+            // Переміщення об'єкта-привида за мишкою
             MovePreviewToMouse();
 
+            // Обертання об'єкта клавішами Q / E
             if (Input.GetKeyDown(KeyCode.Q))
                 previewObject.transform.Rotate(Vector3.up, -45f);
             else if (Input.GetKeyDown(KeyCode.E))
                 previewObject.transform.Rotate(Vector3.up, 45f);
 
+            // Клік мишкою для розміщення
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -80,13 +101,14 @@ public class ObjectPlacer : MonoBehaviour
                         return;
                     }
 
+                    // Створення реальної башти на сцені
                     GameObject newObject = Instantiate(objectPrefab, hit.point, previewObject.transform.rotation);
-                    TankClickDelete deleter = newObject.AddComponent<TankClickDelete>();
-                    deleter.placer = this;
 
+                    // Додаємо до списку і збільшуємо лічильник
                     placedObjects.Add(newObject);
                     currentPlaced++;
 
+                    // Завершення розміщення
                     isPlacing = false;
                     Destroy(previewObject);
                 }
@@ -94,6 +116,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Переміщення об'єкта-привида під мишкою
     void MovePreviewToMouse()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -103,6 +126,7 @@ public class ObjectPlacer : MonoBehaviour
         {
             previewObject.transform.position = hit.point;
 
+            // Колір підказки — червоний для "Path", зелений для дозволеного місця
             if (hit.collider.CompareTag("Path"))
                 SetPreviewColor(Color.red, 0.4f);
             else
@@ -110,6 +134,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Задає колір об'єкта-привида
     void SetPreviewColor(Color color, float alpha = 0.4f)
     {
         foreach (var rend in previewObject.GetComponentsInChildren<Renderer>())
@@ -123,6 +148,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Вимикає всі скрипти на об'єкті-привиді, щоб він не взаємодіяв з навколишнім середовищем
     void DisableScriptsOnPreview(GameObject obj)
     {
         foreach (var script in obj.GetComponentsInChildren<MonoBehaviour>())
@@ -131,6 +157,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Видалення розміщеного об'єкта з гри
     public void RemovePlacedObject(GameObject obj)
     {
         if (placedObjects.Contains(obj))
@@ -140,12 +167,14 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Перемикає режим видалення
     public void ToggleDeleteMode()
     {
         isDeleting = !isDeleting;
         Debug.Log("Delete Mode: " + isDeleting);
     }
 
+    // Робить об'єкт прозорим (для попереднього перегляду)
     void SetTransparent(GameObject obj)
     {
         foreach (var rend in obj.GetComponentsInChildren<Renderer>())
@@ -167,6 +196,7 @@ public class ObjectPlacer : MonoBehaviour
         }
     }
 
+    // Рекурсивно змінює шар для всіх дочірніх об’єктів
     void SetLayerRecursively(GameObject obj, int layer)
     {
         obj.layer = layer;
@@ -175,4 +205,5 @@ public class ObjectPlacer : MonoBehaviour
             SetLayerRecursively(child.gameObject, layer);
         }
     }
+
 }
