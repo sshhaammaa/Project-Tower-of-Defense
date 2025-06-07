@@ -9,7 +9,7 @@ public class MobMovement : MonoBehaviour
     [SerializeField] private int hp;
     [SerializeField] private int coinsToDie;
 
-    private bool isDead = false; // 🚫 щоб не дати гроші двічі
+    private bool isDead = false; 
 
     void Start()
     {
@@ -32,7 +32,7 @@ public class MobMovement : MonoBehaviour
 
     public bool GetDamage(int damage)
     {
-        if (isDead) return false; // 🛡 вже знищено
+        if (isDead) return false; 
 
         hp -= damage;
         Debug.Log("Моб отримав шкоду: " + damage + ". Поточне HP: " + hp);
@@ -40,7 +40,7 @@ public class MobMovement : MonoBehaviour
         if (hp <= 0)
         {
             isDead = true;
-            PlayerMonety.instance.AddMoney(coinsToDie); // 💰 додаємо гроші
+            PlayerMonety.instance.AddMoney(coinsToDie); 
             navmesh.Instance.RemoveEnemy(gameObject);
             Destroy(gameObject);
             return true;
@@ -55,6 +55,6 @@ public class MobMovement : MonoBehaviour
 
         isDead = true;
         navmesh.Instance.RemoveEnemy(gameObject);
-        Destroy(gameObject); // ❌ без грошей
+        Destroy(gameObject); 
     }
 }
