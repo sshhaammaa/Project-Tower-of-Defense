@@ -9,20 +9,38 @@ public class MobMovement : MonoBehaviour
     [SerializeField] private int hp;
     [SerializeField] private int coinsToDie;
 
-    private bool isDead = false; 
+    private bool isDead = false;
 
     void Start()
     {
-        if (navMeshAgent != null)
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
+
+        StartCoroutine(InitializeMovement());
+    }
+
+    private IEnumerator InitializeMovement()
+    {
+        // Затримка на 1 кадр (можна більше, якщо треба)
+        yield return null;
+
+        if (navMeshAgent != null && navMeshAgent.isOnNavMesh)
         {
             navMeshAgent.SetDestination(navmesh.Instance.Finish.position);
             navMeshAgent.avoidancePriority = Random.Range(1, 100);
         }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name} не на NavMesh! Не вдалося встановити ціль.");
+        }
     }
 
-    private void Update()
+
+    void Update()
     {
-        Vector3 direction = navMeshAgent.velocity.normalized;
+        Vector3 direction = navMeshAgent.velocity;
         if (direction != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(direction);
