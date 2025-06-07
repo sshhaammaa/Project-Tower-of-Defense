@@ -7,7 +7,7 @@ public class PlayerMonety : MonoBehaviour
 {
     public static PlayerMonety instance;
 
-    [SerializeField] private int money = 100;
+    [SerializeField] private int money = 1000;
     [SerializeField] private TextMeshProUGUI MoneyGUI;
 
     void Awake()
