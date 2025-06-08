@@ -192,22 +192,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Finish: {fileID: 0}
-  startSpawnMob: 0
+  button: {fileID: 0}
+  startSpawnMob: 1
   mobWaves:
   - prefab: {fileID: 238384451840858597}
-    MobSpawnLength: 2
-    TimeSpawnSpeed: 2
+    MobSpawnLength: 5
+    TimeSpawnSpeed: 0.8
+  - prefab: {fileID: 4611945384142223130, guid: ea4b99b761768b742b5b23a4f5b0c054, type: 3}
+    MobSpawnLength: 5
+    TimeSpawnSpeed: 0.8
   - prefab: {fileID: 238384451840858597}
-    MobSpawnLength: 2
-    TimeSpawnSpeed: 2
-  - prefab: {fileID: 238384451840858597}
-    MobSpawnLength: 2
-    TimeSpawnSpeed: 2
+    MobSpawnLength: 3
+    TimeSpawnSpeed: 0.8
   - prefab: {fileID: 0}
-    MobSpawnLength: 2
-    TimeSpawnSpeed: 3
-  panel: {fileID: 0}
-  button: {fileID: 0}
+    MobSpawnLength: 3
+    TimeSpawnSpeed: 0.8
 --- !u!114 &2398140986369507675
 MonoBehaviour:
   m_ObjectHideFlags: 0
